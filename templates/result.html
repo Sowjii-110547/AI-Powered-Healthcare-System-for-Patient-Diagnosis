@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediAI - Health Assessment Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #10b981;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .btn-nav {
+            padding: 8px 16px;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .btn-nav:hover {
+            background: #1d4ed8;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .result-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .result-header p {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .result-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 30px;
+        }
+
+        .result-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #10b981;
+        }
+
+        .description-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .description-box strong {
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .prediction-result {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .prediction-result h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .prediction-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .probabilities-section {
+            margin-top: 30px;
+        }
+
+        .probability-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .probability-name {
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .probability-bar {
+            flex: 1;
+            margin: 0 20px;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .probability-value {
+            font-weight: 600;
+            color: #059669;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 10px 10px 0;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 16px 32px;
+            background: #ffffff;
+            color: #4b5563;
+            text-decoration: none;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 10px 10px 0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .info-notice {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-notice h3 {
+            color: #92400e;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-notice p {
+            color: #78350f;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .result-card {
+                padding: 20px;
+            }
+
+            .result-header h1 {
+                font-size: 2rem;
+            }
+
+            .prediction-result h2 {
+                font-size: 1.5rem;
+            }
+
+            .probability-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .probability-bar {
+                width: 100%;
+                margin: 0;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                display: block;
+                width: 100%;
+                margin: 0 0 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-heartbeat"></i>
+                MediAI
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('assistant') }}">update profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Result Header -->
+        <div class="result-header">
+            <h1>
+                <i class="fas fa-chart-line"></i>
+                Assessment Results
+            </h1>
+            <p>Your AI-powered health analysis is ready. Please review the results below and consult with a healthcare professional for proper medical advice.</p>
+        </div>
+
+        <!-- Info Notice -->
+        <div class="info-notice">
+            <h3>
+                <i class="fas fa-info-circle"></i>
+                Important Medical Disclaimer
+            </h3>
+            <p>This AI analysis is for informational purposes only and should not replace professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers for accurate medical guidance.</p>
+        </div>
+
+        <!-- Main Result Card -->
+        <div class="result-card">
+            <!-- Description Section -->
+            {% if description %}
+            <div class="result-section">
+                <h3 class="section-title">
+                    <i class="fas fa-comment-medical"></i>
+                    Your Description
+                </h3>
+                <div class="description-box">
+                    {{ description }}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Combined Analysis Section (when both ML and text are provided) -->
+            {% if ml_prediction and text_analysis %}
+            <div class="result-section">
+                <h3 class="section-title">
+                    <i class="fas fa-brain"></i>
+                    Combined Analysis Results
+                </h3>
+                
+                <!-- ML Prediction Section -->
+                <div class="prediction-result" style="margin-bottom: 20px; background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                    <h2>{{ ml_prediction.split(':')[1].strip() if ':' in ml_prediction else ml_prediction }}</h2>
+                    <div class="prediction-badge">ML Model Analysis</div>
+                </div>
+                
+                <!-- Text Analysis Section -->
+                <div class="prediction-result" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    <h2>{{ text_analysis.split(':')[1].strip() if ':' in text_analysis else text_analysis }}</h2>
+                    <div class="prediction-badge">Symptom Text Analysis</div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Single Prediction Result (when only one type is provided) -->
+            <div class="prediction-result">
+                <h2>{{ mainprediction.split(':')[1].strip() if ':' in mainprediction and not (ml_prediction and text_analysis) else mainprediction }}</h2>
+                <div class="prediction-badge">ML & NLP-Powered Analysis</div>
+            </div>
+            {% endif %}
+
+            <!-- Probabilities Section -->
+            {% if probs %}
+            <div class="probabilities-section">
+                <h3 class="section-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Detailed Analysis Breakdown
+                </h3>
+                {% for name, prob in probs %}
+                <div class="probability-item">
+                    <div class="probability-name">{{ name }}</div>
+                    <div class="probability-bar">
+                        <div class="probability-fill" style="width: {{ (prob * 100)|round(0) }}%"></div>
+                    </div>
+                    <div class="probability-value">{{ (prob * 100)|round(1) }}%</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="{{ url_for('assistant') }}" class="btn-primary">
+                <i class="fas fa-plus"></i>
+                New Assessment
+            </a>
+            <button id="openAssistantBtn" class="btn-secondary" onclick="openAssistantModal()">
+                <i class="fas fa-robot"></i>
+                Ask AI Assistant
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Assistant Modal (direct assessment mode) -->
+    <div id="assistantModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1200; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:12px; width:90%; max-width:900px; max-height:80vh; overflow:auto; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="margin:0;">AI Assistant — Quick Advice</h3>
+                <button onclick="closeAssistantModal()" style="background:none;border:none;font-size:20px;cursor:pointer;">✖</button>
+            </div>
+            <div id="assistantContent" style="min-height:120px; background:#f8fafc; border-radius:8px; padding:16px; overflow:auto;">Preparing assistant...</div>
+            <div style="text-align:right; margin-top:12px;"><button onclick="closeAssistantModal()" class="btn-primary">Close</button></div>
+        </div>
+    </div>
+
+    <script>
+        // Animate probability bars on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const bars = document.querySelectorAll('.probability-fill');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.style.width;
+                }, index * 200);
+            });
+        });
+
+        // Pass server-side assessment data safely to JS
+        const ASSESSMENT_DATA = {
+            mainprediction: {{ (mainprediction or '')|tojson }},
+            description: {{ (description or '')|tojson }},
+            probs: {{ (probs or [])|tojson }},
+            values: {{ (values or {})|tojson }},
+            mode: {{ (mode or '')|tojson }}
+        };
+
+        function buildAssessmentTextFromData(data){
+            const parts = [];
+            if(data.mainprediction) parts.push('Result: ' + data.mainprediction);
+            if(data.description) parts.push('Description: ' + data.description);
+            if(Array.isArray(data.probs) && data.probs.length){
+                parts.push('Probabilities:');
+                data.probs.forEach(([name, prob]) => {
+                    // prob expected as decimal 0-1
+                    const pct = (parseFloat(prob) * 100).toFixed(1);
+                    parts.push('- ' + name + ': ' + pct + '%');
+                });
+            }
+            return parts.join('\n');
+        }
+
+        function openAssistantModal(){
+            const modal = document.getElementById('assistantModal');
+            const content = document.getElementById('assistantContent');
+            modal.style.display = 'flex';
+            content.innerText = 'Getting advice...';
+
+            const assessment = buildAssessmentTextFromData(ASSESSMENT_DATA);
+
+            // show description and values before assistant reply
+            let initialHtml = '';
+            if(ASSESSMENT_DATA.description){
+                initialHtml += '<div style="margin-bottom:8px;"><strong>Description:</strong><br>' + ASSESSMENT_DATA.description + '</div>';
+            }
+            const vals = ASSESSMENT_DATA.values || {};
+            const valueKeys = Object.keys(vals).filter(k=>vals[k] && vals[k] !== '');
+            if(valueKeys.length){
+                initialHtml += '<div style="margin-bottom:8px;"><strong>Provided Values:</strong><br><ul>';
+                valueKeys.forEach(k=>{ initialHtml += '<li>' + k + ': ' + vals[k] + '</li>'; });
+                initialHtml += '</ul></div>';
+            } else {
+                initialHtml += '<div style="margin-bottom:8px;color:#374151;"><em>No numeric values provided. The assistant will suggest relevant tests/values.</em></div>';
+            }
+
+            // placeholder for assistant reply
+            initialHtml += '<div id="assistantReply" style="margin-top:12px;padding-top:8px;border-top:1px solid #e2e8f0;">Getting advice...</div>';
+            content.innerHTML = initialHtml;
+
+            fetch('/assistant_direct', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ assessment: assessment, disease: ASSESSMENT_DATA.mode, values: ASSESSMENT_DATA.values })
+            }).then(r => {
+                if(!r.ok) throw new Error('Network response not ok');
+                return r.json();
+            })
+            .then(data => {
+                const replyEl = document.getElementById('assistantReply');
+                if(data && data.reply && replyEl){
+                    replyEl.innerHTML = data.reply.replace(/\n/g,'<br>');
+                } else if (replyEl){
+                    replyEl.innerText = 'No reply from assistant.';
+                } else {
+                    content.innerText = data.reply ? data.reply.replace(/\n/g,'<br>') : 'No reply from assistant.';
+                }
+            }).catch(err => {
+                console.error(err);
+                const replyEl = document.getElementById('assistantReply');
+                if(replyEl) replyEl.innerText = 'Error contacting assistant.';
+                else content.innerText = 'Error contacting assistant.';
+            });
+        }
+
+        function closeAssistantModal(){
+            document.getElementById('assistantModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

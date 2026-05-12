@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediAI - Blood Disease Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #1a202c;
+        }
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #ef4444;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .btn-nav {
+            padding: 8px 16px;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .btn-nav:hover {
+            background: #1d4ed8;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .form-header p {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #ef4444;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-hint {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .field-group {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .field-label {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .field-hint {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .field-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-box h3 {
+            color: #dc2626;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p {
+            color: #991b1b;
+            line-height: 1.6;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .progress-step.active {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+        }
+
+        .progress-step i {
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-heartbeat"></i>
+                MediAI
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('assistant') }}">Assessments</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-step active">
+                <i class="fas fa-list"></i>
+                Assessment
+            </div>
+            <!-- <div class="progress-step">
+                <i class="fas fa-chart-line"></i>
+                Results
+            </div> -->
+        </div>
+
+        <!-- Form Header -->
+        <div class="form-header">
+            <h1>
+                <i class="fas fa-tint"></i>
+                Blood Disease Assessment
+            </h1>
+            <p>Enter your blood test values below. All fields are optional - you can fill in as many as you have available.</p>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>
+                <i class="fas fa-info-circle"></i>
+                Important Information
+            </h3>
+            <p>You can submit this form with any number of values filled in. The more information you provide, the more accurate the prediction will be.</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card">
+            <form action="{{ url_for('predict_blood') }}" method="post">
+                <!-- Description Section -->
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="description">
+                            <i class="fas fa-comment-medical"></i>
+                            Symptoms & Medical History (Optional)
+                        </label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Describe any symptoms, current medications, or relevant medical history..."
+                        >{{ description }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Blood Values Section -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-flask"></i>
+                        Blood Test Values
+                    </h3>
+
+                    <div class="form-grid">
+                        {% for feat in bloodfeatures %}
+                        <div class="field-group">
+                            <label class="field-label" for="{{ feat }}">{{ feat }}</label>
+
+                            {% if feat == 'Glucose' %}
+                                <div class="field-hint">Normal fasting: 70–99 mg/dL; post-meal: &lt; 140 mg/dL</div>
+                            {% elif feat == 'Hemoglobin' %}
+                                <div class="field-hint">Typical range: 12–17 g/dL</div>
+                            {% elif feat == 'Platelets' %}
+                                <div class="field-hint">Typical range: 150–450 ×10³/µL</div>
+                            {% elif feat == 'Red Blood Cells' %}
+                                <div class="field-hint">Typical range: 4.0–6.0 ×10⁶/µL</div>
+                            {% elif feat == 'White Blood Cells' %}
+                                <div class="field-hint">Typical range: 4–11 ×10³/µL</div>
+                            {% elif feat == 'Systolic Blood Pressure' %}
+                                <div class="field-hint">Normal range: 90–120 mmHg</div>
+                            {% elif feat == 'Diastolic Blood Pressure' %}
+                                <div class="field-hint">Normal range: 60–80 mmHg</div>
+                            {% elif feat == 'Triglycerides' %}
+                                <div class="field-hint">Normal: &lt; 150 mg/dL</div>
+                            {% elif feat == 'HDL Cholesterol' %}
+                                <div class="field-hint">Higher is better; often &gt; 40–50 mg/dL</div>
+                            {% elif feat == 'HbA1c' %}
+                                <div class="field-hint">Normal: &lt; 5.7%</div>
+                            {% elif feat == 'Creatinine' %}
+                                <div class="field-hint">Approximate range: 0.6–1.3 mg/dL (adults)</div>
+                            {% endif %}
+
+                            <input
+                                type="number"
+                                step="any"
+                                id="{{ feat }}"
+                                name="{{ feat }}"
+                                class="field-input"
+                                placeholder="Enter {{ feat }} (optional)"
+                            >
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div style="text-align: center; margin-top: 40px;">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-chart-line"></i>
+                        Get Blood Health Analysis
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

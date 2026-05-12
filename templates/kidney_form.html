@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediAI - Kidney Disease Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #1a202c;
+        }
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #8b5cf6;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .btn-nav {
+            padding: 8px 16px;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .btn-nav:hover {
+            background: #1d4ed8;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .form-header p {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #8b5cf6;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-hint {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .field-group {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .field-label {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .field-hint {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .field-input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .range-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-box h3 {
+            color: #92400e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p {
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #e5e7eb;
+            color: #6b7280;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .progress-step.active {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .progress-step i {
+            font-size: 0.75rem;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-heartbeat"></i>
+                MediAI
+            </a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="{{ url_for('assistant') }}">Assessments</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-step active">
+                <i class="fas fa-list-check"></i>
+                Assessment Form
+            </div>
+        </div>
+
+        <!-- Form Header -->
+        <div class="form-header">
+            <h1>
+                <i class="fas fa-kidney"></i>
+                Kidney Disease Assessment
+            </h1>
+            <p>Comprehensive kidney function evaluation using laboratory values and clinical parameters for accurate disease prediction.</p>
+        </div>
+
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>
+                <i class="fas fa-exclamation-triangle"></i>
+                Important Information
+            </h3>
+            <p>You can submit this form with any number of values filled in. The more information you provide, the more accurate the prediction will be.</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card">
+            <form action="{{ url_for('predict_kidney') }}" method="post">
+                <!-- Symptoms Section -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-stethoscope"></i>
+                        Symptoms & Description
+                    </h2>
+                    <div class="form-group">
+                        <label for="description">Describe your symptoms and current health condition</label>
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="4"
+                            placeholder="Example: I've been experiencing fatigue, swelling in legs, changes in urination frequency, and occasional nausea...">{{ description }}</textarea>
+                        <div class="form-hint">Include details about urinary changes, swelling, fatigue, or any kidney-related symptoms you've noticed.</div>
+                    </div>
+                </div>
+
+                <!-- Laboratory Values Section -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-flask"></i>
+                        Laboratory Values
+                    </h2>
+                    <div class="form-grid">
+                        {% for feat in kidneyfeatures %}
+                        <div class="field-group">
+                            {% if feat == 'Age of the patient' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Age of the patient
+                                    <span class="range-indicator">(years)</span>
+                                </label>
+                                <span class="field-hint">Your current age in years (typical adult range 18–90)</span>
+                                <input type="number" step="1" min="0" max="120" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Blood pressure mmHg' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Blood pressure (mmHg)
+                                    <span class="range-indicator">(mmHg)</span>
+                                </label>
+                                <span class="field-hint">Blood pressure reading (normal around 90–120 systolic)</span>
+                                <input type="number" step="1" min="70" max="220" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Random blood glucose level mgdl' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Random blood glucose level (mg/dL)
+                                    <span class="range-indicator">(mg/dL)</span>
+                                </label>
+                                <span class="field-hint">Blood glucose level (usually &lt; 200)</span>
+                                <input type="number" step="1" min="50" max="400" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Blood urea mgdl' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Blood urea (mg/dL)
+                                    <span class="range-indicator">(mg/dL)</span>
+                                </label>
+                                <span class="field-hint">Blood urea nitrogen level (normal about 7–20)</span>
+                                <input type="number" step="1" min="5" max="200" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Serum creatinine mgdl' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Serum creatinine (mg/dL)
+                                    <span class="range-indicator">(mg/dL)</span>
+                                </label>
+                                <span class="field-hint">Creatinine level (normal ~0.6–1.3)</span>
+                                <input type="number" step="0.1" min="0.2" max="10" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Sodium level mEqL' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Sodium level (mEq/L)
+                                    <span class="range-indicator">(mEq/L)</span>
+                                </label>
+                                <span class="field-hint">Sodium concentration (normal 135–145)</span>
+                                <input type="number" step="1" min="110" max="170" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Potassium level mEqL' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Potassium level (mEq/L)
+                                    <span class="range-indicator">(mEq/L)</span>
+                                </label>
+                                <span class="field-hint">Potassium concentration (normal 3.5–5.0)</span>
+                                <input type="number" step="0.1" min="2" max="8" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Hemoglobin level gms' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Hemoglobin level (g/dL)
+                                    <span class="range-indicator">(g/dL)</span>
+                                </label>
+                                <span class="field-hint">Hemoglobin concentration (typical 12–17)</span>
+                                <input type="number" step="0.1" min="5" max="20" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% elif feat == 'Estimated Glomerular Filtration Rate eGFR' %}
+                                <label class="field-label" for="{{ feat }}">
+                                    Estimated Glomerular Filtration Rate (eGFR)
+                                    <span class="range-indicator">(mL/min/1.73m²)</span>
+                                </label>
+                                <span class="field-hint">Kidney filtration rate (normal ≥ 90)</span>
+                                <input type="number" step="1" min="5" max="150" class="field-input" id="{{ feat }}" name="{{ feat }}">
+
+                            {% else %}
+                                <label class="field-label" for="{{ feat }}">{{ feat }}</label>
+                                <input type="number" step="any" class="field-input" id="{{ feat }}" name="{{ feat }}" placeholder="Enter {{ feat }}">
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-brain"></i>
+                    Analyze Kidney Function
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form validation enhancement - now optional
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // Allow form submission even with empty fields
+            // Just provide visual feedback for filled fields
+            const inputs = document.querySelectorAll('input, textarea');
+
+            inputs.forEach(input => {
+                if (input.value.trim()) {
+                    input.style.borderColor = '#10b981';
+                } else {
+                    input.style.borderColor = '#e5e7eb';
+                }
+            });
+
+            // Form will submit regardless
+        });
+
+        // Real-time validation feedback
+        document.querySelectorAll('input, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.style.borderColor = '#10b981';
+                } else {
+                    this.style.borderColor = '#e5e7eb';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
